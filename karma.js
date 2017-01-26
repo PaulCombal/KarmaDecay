@@ -29,7 +29,8 @@ function addLinkOnPost(i, val)
 		$(val).attr('data-domain') == "i.redd.it" || 
 		$(val).attr('data-domain') == "i.reddituploads.com" || 
 		$(val).attr('data-domain') == "i.imgur.com" || 
-		$(val).attr('data-domain') == "youtube.com") 
+		$(val).attr('data-domain') == "i.gyazo.com" || 
+		$(val).attr('data-domain') == "youtube.com")
 	{	
 		//We find the url of the reddit post and add the karmadecay prefix
 		var fullurl = "http://karmadecay.com" + $(this).find("li.first a").attr("href").toString().substr($(val).find("li.first a").attr("href").indexOf("/r/")) + "?via=chromeExtension";
