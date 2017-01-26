@@ -3,6 +3,7 @@ $(document).ready(function() {
 	$(this).find('.link.thing').each(function(){
 		if ($(this).attr('data-domain') == "imgur.com" || 
 			$(this).attr('data-domain') == "youtube.com") {
+			
 			//We find the url of the reddit post and add the karmadecay prefix
 			var fullurl = "http://karmadecay.com" + $(this).find("li.first a").attr("href").toString().substr($(this).find("li.first a").attr("href").indexOf("/r/")) + "?via=chromeExtension";
 
