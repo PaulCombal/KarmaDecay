@@ -26,6 +26,8 @@ $(document).ready(function() {
 function addLinkOnPost(i, val)
 {
 	if ($(val).attr('data-domain') == "imgur.com" || 
+		$(val).attr('data-domain') == "i.redd.it" || 
+		$(val).attr('data-domain') == "i.reddituploads.com" || 
 		$(val).attr('data-domain') == "i.imgur.com" || 
 		$(val).attr('data-domain') == "youtube.com") 
 	{	
