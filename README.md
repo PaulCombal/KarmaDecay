@@ -1,6 +1,6 @@
 # KarmaDecay for Google Chrome
 Unofficial Chrome extension for Reddit Karma Decay
-Help me spread the extension to help get it the title of official extension!
+Help me spread the extension to help get it the title of official extension! I prefer not to put this extension on the Chrome Web Store until this gets the official approbation.
 
 As of right now, this extension supports images from imgur and reddit, as well as youtube videos.
 Note that this extension is compatible with RES.
