@@ -1,0 +1,26 @@
+{
+   "content_scripts": [ 
+      {
+        "js": [ "jquery.min.js", "karma.js" ],
+        "matches": [ "*://www.reddit.com/*", "*://reddit.com/*" ]
+      }],
+   
+   "icons": {
+      "128": "karma128.png",
+      "16": "karma16.png",
+      "48": "karma48.png"
+   },
+   "manifest_version": 2,
+   "name": "Karma Decay for Reddit",
+   "short_name": "Karma Decay",
+   "description": "Adds link to KarmaDecay directly on Reddit pages",
+   "permissions": [ "storage", "*://reddit.com/*" ],
+   "version": "0.0.1",
+   "web_accessible_resources": [ 
+    ],
+   
+    "options_ui": {
+      "page": "settings.html",
+      "chrome_style": true
+   }
+}
