@@ -3,25 +3,32 @@ $(document).ready(function() {
 	//We select the posts that link to imgur on the page
 	$(this).find('.link.thing').each(addLinkOnPost);
 
-	//All the following will only be used by RES users
-	//We need to check if RES added a new page continuously
-	//To do that, we  count the number of .NERPageMarker and check every second if a new one popped up
+	chrome.storage.sync.get({hasResInstalled: false}, function(data){
+		if(data.hasResInstalled){
+			//All the following will only be used by RES users
+			//We need to check if RES added a new page continuously
+			//To do that, we  count the number of .NERPageMarker and check every second if a new one popped up
+			console.log("RES installed")
+			var initialNumberOfPages = $(".NERPageMarker").length;
 
-	var initialNumberOfPages = $(".NERPageMarker").length;
+			setInterval(function(){
+				//If RES added a new page
+				if ($(".NERPageMarker").length > initialNumberOfPages) {
+					//We update the number of pages loaded
+					initialNumberOfPages = $(".NERPageMarker").length;
 
-	setInterval(function(){
-		//If RES added a new page
-		if ($(".NERPageMarker").length > initialNumberOfPages) {
-			//We update the number of pages loaded
-			initialNumberOfPages = $(".NERPageMarker").length;
+					console.log("New page loaded");
 
-			console.log("New page loaded");
-
-			//For each new post with a link on the last page loaded
-			$(".NERPageMarker").last().next().find(".link.thing").each(addLinkOnPost);
+					//For each new post with a link on the last page loaded
+					$(".NERPageMarker").last().next().find(".link.thing").each(addLinkOnPost);
+				} //End of if
+			}, 1000); //End of setInterval
+		} //End of if RES installed condition
+		else{
+			console.log("RES not installd");
 		}
-	}, 1000); //End of setInterval
-});
+	}); //End of getting RES installed
+}); //End of document.ready callback
 
 function addLinkOnPost(i, val)
 {
@@ -30,6 +37,7 @@ function addLinkOnPost(i, val)
 		$(val).attr('data-domain') == "i.reddituploads.com" || 
 		$(val).attr('data-domain') == "i.imgur.com" || 
 		$(val).attr('data-domain') == "i.gyazo.com" || 
+		$(val).attr('data-domain') == "gfycat.com" || 
 		$(val).attr('data-domain') == "youtube.com")
 	{	
 		//We find the url of the reddit post and add the karmadecay prefix

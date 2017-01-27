@@ -11,3 +11,10 @@ This extension adds small links like that next to all supported posts:
 
 ## How can I try out this wonder?
 If you know what you're doing, and absolutely want the latest version, you can download the code and drop it in your extension tab. If you just want it running, just go to chrome://extensions, [download this file](https://mega.nz/#!o4J3yAbb!uPerEJIAmNd1GH-X0x_Gift3cJdud10pO9dZZ-8a5bw), then drag and drop it in your tab. That's it, well done :)
+
+
+
+### What are the permissions for?
+
+* _Access and modify data from reddit.com_ : Obviously, needed to add links on the page
+* _Manage apps and extensions_ : Needed to check whether or not [RES](https://chrome.google.com/webstore/detail/reddit-enhancement-suite/kbmfpngjjgdllneeigpgjifpgocmfgmb) is present, for optimization reasons

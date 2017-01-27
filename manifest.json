@@ -14,11 +14,14 @@
    "name": "Karma Decay for Reddit",
    "short_name": "Karma Decay",
    "description": "Adds link to KarmaDecay directly on Reddit pages",
-   "permissions": [ "storage", "*://reddit.com/*" ],
+   "permissions": [ "storage", "*://reddit.com/*", "management" ],
    "version": "1.0.0",
    "web_accessible_resources": [ 
     ],
-   
+   "background":{
+    "scripts" : ["eventPage.js"],
+    "persistent": false
+   },
     "options_ui": {
       "page": "settings.html",
       "chrome_style": true
