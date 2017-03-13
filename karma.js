@@ -38,6 +38,7 @@ function addLinkOnPost(i, val)
 		$(val).attr('data-domain') == "i.imgur.com" || 
 		$(val).attr('data-domain') == "i.gyazo.com" || 
 		$(val).attr('data-domain') == "gfycat.com" || 
+		$(val).attr('data-domain') == "media.giphy.com" || 
 		$(val).attr('data-domain') == "youtube.com")
 	{	
 		//We find the url of the reddit post and add the karmadecay prefix
