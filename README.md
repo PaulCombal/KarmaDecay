@@ -3,7 +3,8 @@ Unofficial Chrome extension for Reddit Karma Decay
 
 Help me spread the extension to help get it the title of official extension! I prefer not to put this extension on the Chrome Web Store until this gets the official approbation.
 
-As of right now, this extension supports images from imgur and reddit, as well as youtube videos.
+As of right now, this extension supports images from most popular sites, as well as youtube videos.
+That's not everything! I also added **support for 9gag**, so you can quickly see if something is stolen!
 Note that this extension is compatible with RES.
 
 This extension adds small links like that next to all supported posts:

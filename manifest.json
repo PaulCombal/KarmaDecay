@@ -2,7 +2,7 @@
    "content_scripts": [ 
       {
         "js": [ "jquery.min.js", "karma.js" ],
-        "matches": [ "*://www.reddit.com/*", "*://reddit.com/*" ]
+        "matches": [ "*://www.reddit.com/*", "*://reddit.com/*", "*://9gag.com/*" ]
       }],
    
    "icons": {
@@ -15,7 +15,7 @@
    "short_name": "Karma Decay",
    "description": "Adds link to KarmaDecay directly on Reddit pages",
    "permissions": [ "storage", "*://reddit.com/*", "management" ],
-   "version": "1.1.1",
+   "version": "1.2.0",
    "web_accessible_resources": [ 
     ],
    "background":{
