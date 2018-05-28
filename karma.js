@@ -1,5 +1,7 @@
+// TODO make sure we are well using new or old design
+
 $(document).ready(function() {
-	if (document.domain.endsWith("reddit.com")) {
+	if (document.domain.endsWith("old.reddit.com")) {
 		//The first page doesnt have a container, so we have to look on the whole page
 		//We select the posts that link to imgur on the page
 		$(this).find('.link.thing').each(addLinkOnPost);
@@ -29,6 +31,18 @@ $(document).ready(function() {
 				console.log("RES not installd");
 			}
 		}); //End of getting RES installed
+	}
+	else if (document.domain.endsWith("reddit.com")) {
+		// New reddit design
+		posts_container = $("div#SHORTCUT_FOCUSABLE_DIV").find('div').first().find('div').first().find('> div').last().find('> div').find('> div').find('> div').last().find('> div').last().find('> div').first().find('> div').find('> div').first();
+		
+		// TODO process all the threads that were here before this event is registered
+
+		$(posts_container).on('DOMNodeInserted', function(e) {
+			if ($(e.target).prop('tagName') == 'DIV') {
+				addLinkOnPostNewDesign(e.target);
+			}
+	    });
 	}
 	else{
 		//9fag
@@ -72,9 +86,53 @@ function addLinkOnPost(i, val)
 		$(val).attr('data-domain') == "youtube.com")
 	{	
 		//We find the url of the reddit post and add the karmadecay prefix
-		var fullurl = "http://karmadecay.com" + $(this).find("li.first a").attr("href").toString().substr($(val).find("li.first a").attr("href").indexOf("/r/")) + "?via=chromeExtension";
+		const fullurl = "http://karmadecay.com" + $(this).find("li.first a").attr("href").toString().substr($(val).find("li.first a").attr("href").indexOf("/r/")) + "?via=chromeExtension";
 
 		//We add the karmadecay link
 		$(val).find("ul").append('<li><a target="_blank" href="' + fullurl + '">karmadecay</a></li>');
+	}
+}
+
+function addLinkOnPostNewDesign(e) {
+	const reddit_out_url = $(e).find('> div > div').last().find('> div').last().find('> div').first().find('> div').last().find('> div').first().find('> span').find('> a').last()
+		.attr("href");
+
+	const reddit_self_url = $(e).find('> div > div').last().find('> div').last().find('> div').first().find('> div').last().find('> div').first().find('> span').find('> a').first()
+		.attr("href");
+
+	// TODO Add a 'processed' class, and check if not already present beforehand
+
+	if (reddit_out_url == undefined || reddit_self_url == undefined) {
+		console.warn('Undefined links for this item:');
+		console.log(e);
+		return;
+	}
+
+	if (!reddit_out_url.startsWith('/')) {
+		try {
+			const x = new URL(reddit_out_url);
+			const hostname = x.hostname;
+
+			if (hostname.includes('imgur') || 
+				hostname.includes('redditmedia') ||
+				hostname.includes('reddituploads') || 
+				hostname.includes('.redd') || 
+				hostname.includes('gyazo') || 
+				hostname.includes('gfycat') || 
+				hostname.includes('giphy') ||
+				hostname.includes('youtu')) 
+			{
+				const kd_url = 'http://karmadecay.com' + reddit_self_url;
+
+				var buttons_bar = $(e).find('> div > div > div > div > div > div > div > div').last();
+				const cool_button_classes = $(buttons_bar.children().first()).attr("class");
+				const new_link_html = '<a target="_blank" class="' + cool_button_classes + '" href="' + kd_url + '">Karmadecay</a>';
+
+				$(buttons_bar.children()[1]).after(new_link_html);
+			}
+		} catch(e) {
+			console.log('Error creatting url: ' + e.message);
+		}
+
 	}
 }
