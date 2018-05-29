@@ -2,7 +2,7 @@
    "content_scripts": [ 
       {
         "js": [ "jquery.min.js", "karma.js" ],
-        "matches": [ "*://www.reddit.com/*", "*://reddit.com/*", "*://9gag.com/*" ]
+        "matches": [ "*://www.reddit.com/*", "*://old.reddit.com/*", "*://reddit.com/*", "*://9gag.com/*" ]
       }],
    
    "icons": {
