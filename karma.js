@@ -121,8 +121,9 @@ function addLinkOnPostNewDesign(e) {
 
 	if (reddit_out_url == undefined || reddit_self_url == undefined) {
 		// Probably an Ad
-		if (g_hide_ads) {
+		if (g_hide_ads && $(e).find('.scrollerItem').length > 0) {
 			$(e).hide();
+			console.log(e);
 			console.log('Ad dismissed');			
 		}
 		return;
