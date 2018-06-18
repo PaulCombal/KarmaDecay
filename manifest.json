@@ -15,7 +15,7 @@
    "short_name": "Karma Decay",
    "description": "Adds link to KarmaDecay directly on Reddit pages",
    "permissions": [ "storage", "*://reddit.com/*", "management" ],
-   "version": "1.3.0",
+   "version": "1.3.2",
    "web_accessible_resources": [ 
     ],
    "background":{

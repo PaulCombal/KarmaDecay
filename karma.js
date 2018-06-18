@@ -119,14 +119,19 @@ function addLinkOnPostNewDesign(e) {
 	const reddit_self_url = $(e).find('> div > div').last().find('> div').last().find('> div').first().find('> div').last().find('> div').first().find('> span').find('> a').first()
 		.attr("href");
 
-	if (reddit_out_url == undefined || reddit_self_url == undefined) {
-		// Probably an Ad
-		if (g_hide_ads && $(e).find('.scrollerItem').length > 0) {
-			$(e).hide();
-			console.log(e);
-			console.log('Ad dismissed');			
-		}
-		return;
+	const is_ad = $(e).find("> div > div > div").last().find('> div > div').last().find('> :nth-child(2) > div').first().find('span').first().text().trim() == 'promoted';
+	
+	if (g_hide_ads && is_ad) {
+		$(e).hide();
+
+		console.log('Ad dismissed');
+		//console.log(e);		
+		console.log($(e).text());		
+	}
+
+	if ((typeof reddit_out_url) != 'string' || (typeof reddit_self_url) != 'string') {
+		console.warn('Not a post:');
+		console.log(e);
 	}
 
 	if (!reddit_out_url.startsWith('/')) {
