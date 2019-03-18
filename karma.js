@@ -40,15 +40,14 @@ $(document).ready(function() {
 			// New reddit design
 			chrome.storage.sync.get({hide_ads: false}, function(settings) {
 				g_hide_ads = settings.hide_ads;
-				console.log('Hide ads?');
-				console.log(g_hide_ads);
+				console.log('Hide ads?', g_hide_ads);
 			});
 
 			console.log("New Reddit design detected");
-			posts_container = $("div#SHORTCUT_FOCUSABLE_DIV").find('div').first().find('div').first().find('> div').last().find('> div').find('> div').find('> div').last().find('> div').last().find('> div').first().find('> div').find('> div').first();
-			
+			let posts_container = $('.Post').first().parent().parent().parent();
+
 			// Process all the threads that were here before this event is registered
-			posts_container.find('> div').each((i, e) => {
+			$('.Post').each((i, e) => {
 				if ($(e).prop('tagName') == 'DIV') {
 					addLinkOnPostNewDesign(e);
 				}
@@ -56,8 +55,16 @@ $(document).ready(function() {
 
 			// Process all the threads that will be inserted
 			$(posts_container).on('DOMNodeInserted', function(e) {
-				if ($(e.target).prop('tagName') == 'DIV') {
+				if ($(e.target).hasClass('Post')) {
 					addLinkOnPostNewDesign(e.target);
+				}
+				else {
+					let pleasefind = $(e.target).find('.Post');
+					if (pleasefind.length)
+					{
+						pleasefind = pleasefind.first();
+						addLinkOnPostNewDesign(pleasefind);
+					}
 				}
 		    });
 		}
@@ -95,14 +102,18 @@ $(document).ready(function() {
 
 function addLinkOnPost(i, val)
 {
-	if ($(val).attr('data-domain') == "imgur.com" || 
-		$(val).attr('data-domain') == "i.redd.it" || 
-		$(val).attr('data-domain') == "i.reddituploads.com" || 
-		$(val).attr('data-domain') == "i.imgur.com" || 
-		$(val).attr('data-domain') == "i.gyazo.com" || 
-		$(val).attr('data-domain') == "gfycat.com" || 
-		$(val).attr('data-domain') == "media.giphy.com" || 
-		$(val).attr('data-domain') == "youtube.com")
+	const domain = $(val).attr('data-domain');
+	const domains = [
+		'imgur.com', 
+		'i.redd.it', 
+		'i.reddituploads.com',
+		'i.imgur.com',
+		'i.gyazo.com',
+		'media.giphy.com',
+		'youtube.com'
+	];
+
+	if (domains.includes(domain))
 	{	
 		//We find the url of the reddit post and add the karmadecay prefix
 		const fullurl = "http://karmadecay.com" + $(this).find("li.first a").attr("href").toString().substr($(val).find("li.first a").attr("href").indexOf("/r/")) + "?via=chromeExtension";
@@ -113,52 +124,36 @@ function addLinkOnPost(i, val)
 }
 
 function addLinkOnPostNewDesign(e) {
-	const reddit_out_url = $(e).find('> div > div').last().find('> div').last().find('> div').first().find('> div').last().find('> div').first().find('> span').find('> a').last()
-		.attr("href");
-
-	const reddit_self_url = $(e).find('> div > div').last().find('> div').last().find('> div').first().find('> div').last().find('> div').first().find('> span').find('> a').first()
-		.attr("href");
-
-	const is_ad = $(e).find("> div > div > div").last().find('> div > div').last().find('> :nth-child(2) > div').first().find('span').first().text().trim() == 'promoted';
+	const reddit_self_url = $(e).find('[data-click-id=timestamp]').first().attr("href");
+	const is_ad = $(e).attr('id').length > 20;
 	
+	//console.log('YO', e, reddit_self_url, is_ad);
+
 	if (g_hide_ads && is_ad) {
 		$(e).hide();
 
-		console.log('Ad dismissed');
-		//console.log(e);		
-		console.log($(e).text());		
+		console.log('Ad dismissed');	
+		console.log($(e).text());
+		return;	
 	}
 
-	if ((typeof reddit_out_url) != 'string' || (typeof reddit_self_url) != 'string') {
-		console.warn('Not a post:');
-		console.log(e);
+	try
+	{
+		let url = new URL(reddit_self_url);
+		url = url.pathname;
+		const kd_url = 'http://karmadecay.com' + url;
+		//console.log('Added link ', kd_url);
+	
+		var buttons_bar = $(e).find('> div').last().find('> div').last();
+		var save_button = buttons_bar.children().eq(1).children().eq(2);
+
+		const cool_button_classes = save_button.attr('class');
+		const new_link_html = '<a target="_blank" class="' + cool_button_classes + '" href="' + kd_url + '">Karmadecay</a>';
+	
+		save_button.after(new_link_html);
 	}
-
-	if (!reddit_out_url.startsWith('/')) {
-		try {
-			const x = new URL(reddit_out_url);
-			const hostname = x.hostname;
-
-			if (hostname.includes('imgur') || 
-				hostname.includes('redditmedia') ||
-				hostname.includes('reddituploads') || 
-				hostname.includes('.redd') || 
-				hostname.includes('gyazo') || 
-				hostname.includes('gfycat') || 
-				hostname.includes('giphy') ||
-				hostname.includes('youtu')) 
-			{
-				const kd_url = 'http://karmadecay.com' + reddit_self_url;
-
-				var buttons_bar = $(e).find('> div > div > div > div > div > div > div > div').last();
-				const cool_button_classes = $(buttons_bar.children().first()).attr("class");
-				const new_link_html = '<a target="_blank" class="' + cool_button_classes + '" href="' + kd_url + '">Karmadecay</a>';
-
-				$(buttons_bar.children()[1]).after(new_link_html);
-			}
-		} catch(e) {
-			console.log('Error creating url: ' + e.message);
-		}
-
+	catch(e)
+	{
+		console.warn("This bad --> " + reddit_self_url, e);
 	}
 }
