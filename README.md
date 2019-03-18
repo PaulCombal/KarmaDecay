@@ -11,9 +11,9 @@ This extension adds small links like that next to all supported posts:
 ![Preview of KarmaDecay extension](http://i.imgur.com/KHaUljp.png)
 
 ## How can I try out this wonder?
-If you know what you're doing, and absolutely want the latest version, you can download the code and drop it in your extension tab. If you just want it running, just go to chrome://extensions, [download the crx file](https://github.com/PaulCombal/KarmaDecay/releases/tag/1.1), then drag and drop it in the extensions tab (options>More tools>Extensions) tab. That's it, well done :)
 
-
+This extension is now available [on the Chrome Web Store!](https://chrome.google.com/webstore/detail/karma-decay-for-reddit/jajhikapekalehefmoebgloganabcgee)
+If you know what you're doing, and absolutely want the latest version, you can download the code and drop it in your extension tab.
 
 ### What are the permissions for?
 
