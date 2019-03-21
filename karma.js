@@ -110,7 +110,10 @@ function addLinkOnPost(i, val)
 		'i.imgur.com',
 		'i.gyazo.com',
 		'media.giphy.com',
-		'youtube.com'
+		'v.redd.it',
+		'gfycat.com',
+		'youtube.com',
+		'youtu.be'
 	];
 
 	if (domains.includes(domain))
@@ -123,6 +126,7 @@ function addLinkOnPost(i, val)
 	}
 }
 
+// Because parsing is significantly more difficult, I decided to add a link on every post
 function addLinkOnPostNewDesign(e) {
 	const reddit_self_url = $(e).find('[data-click-id=timestamp]').first().attr("href");
 	const is_ad = $(e).attr('id').length > 20;
